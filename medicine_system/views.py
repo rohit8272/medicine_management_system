@@ -81,7 +81,28 @@ def add_customer(request):
 def get_customer(request):
     query_set = Customer.objects.all()
     serializer = Customer_serializer(query_set , many=True)
-    # context  = {"emp_details" : query_set}
-    # print('query_set: ',query_set)
-    # print('serialize_data: ' ,serializer.data)
+    return Response({"data" : serializer.data})
+
+@api_view(['GET'])
+def get_customer_by_id(request ,uuid):
+    query_set = Customer.objects.get(uuid = uuid)
+    serializer = Customer_serializer(query_set)
+    return Response({"data" : serializer.data})
+
+@api_view(['PUT'])
+def update_customer(request ,uuid):
+    data = request.data
+    query_set = Customer.objects.get(uuid = uuid)
+    serializer = Customer_serializer(query_set , data = data)
+    if not serializer.is_valid():
+        return Response({"status" : 400 , "message" : serializer.errors})
+
+    serializer.save()
+    return Response({"data" : serializer.data})
+
+@api_view(['DELETE'])
+def delete_customer(request ,uuid):
+    query_set = Customer.objects.get(uuid = uuid)
+    serializer = Customer_serializer(query_set)
+    query_set.delete()
     return Response({"data" : serializer.data})

@@ -26,6 +26,10 @@ urlpatterns = [
     path('update_medicine/<uuid>/' , update_medicine),
     path('delete_medicine/<uuid>/' ,delete_medicine),
     path('add_customer/' , add_customer),
-    path('get_customer/' , get_customer)
+    path('get_customer/' , get_customer),
+    path('get_customer_by_id/<uuid>/' , get_customer_by_id),
+    path('update_customer/<uuid>/' , update_customer),
+    path('delete_customer/<uuid>/', delete_customer)
+
 
 ]
