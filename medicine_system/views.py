@@ -1,9 +1,11 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view 
+from rest_framework.decorators import api_view , authentication_classes ,permission_classes
 from rest_framework.response import Response
 from .serializer import Customer_serializer , Medicine_serializer
 from .db import conn
 from .models import Customer
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 db = conn['medicines']
 collection = db['medicines_details']
@@ -22,6 +24,8 @@ def add_medicine(request):
 
 
 @api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def get_medicine(request):
     data = collection.find()
     serializer = Medicine_serializer(data  ,many= True)
@@ -29,6 +33,8 @@ def get_medicine(request):
 
 
 @api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def get_medicine_by_id(request , uuid):
     data = collection.find_one({"uuid" : uuid})
     serializer = Medicine_serializer(data)
@@ -36,6 +42,8 @@ def get_medicine_by_id(request , uuid):
 
 
 @api_view(['PUT'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def update_medicine(request , uuid):
     old_data = collection.find_one({"uuid" : uuid})
     data = request.data
@@ -50,6 +58,8 @@ def update_medicine(request , uuid):
 
 
 @api_view(['DELETE'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def delete_medicine(request , uuid):
     data = collection.find_one({"uuid" : uuid})
     serializer = Medicine_serializer(data)
@@ -73,6 +83,8 @@ def add_customer(request):
 
 
 @api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def get_customer(request):
     query_set = Customer.objects.all()
     serializer = Customer_serializer(query_set , many=True)
@@ -80,6 +92,8 @@ def get_customer(request):
 
 
 @api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def get_customer_by_id(request ,uuid):
     query_set = Customer.objects.get(uuid = uuid)
     serializer = Customer_serializer(query_set)
@@ -87,6 +101,8 @@ def get_customer_by_id(request ,uuid):
 
 
 @api_view(['PUT'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def update_customer(request ,uuid):
     data = request.data
     query_set = Customer.objects.get(uuid = uuid)
@@ -99,6 +115,8 @@ def update_customer(request ,uuid):
 
 
 @api_view(['DELETE'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def delete_customer(request ,uuid):
     query_set = Customer.objects.get(uuid = uuid)
     serializer = Customer_serializer(query_set)

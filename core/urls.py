@@ -18,6 +18,11 @@ from django.contrib import admin
 from django.urls import path
 from medicine_system.views import *
 
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('add_medicine/' , add_medicine),
@@ -29,7 +34,9 @@ urlpatterns = [
     path('get_customer/' , get_customer),
     path('get_customer_by_id/<uuid>/' , get_customer_by_id),
     path('update_customer/<uuid>/' , update_customer),
-    path('delete_customer/<uuid>/', delete_customer)
+    path('delete_customer/<uuid>/', delete_customer),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
 
 ]
