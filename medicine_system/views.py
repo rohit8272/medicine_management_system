@@ -24,8 +24,8 @@ def add_medicine(request):
 
 
 @api_view(['GET'])
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
+# @authentication_classes([JWTAuthentication])
+# @permission_classes([IsAuthenticated])
 def get_medicine(request):
     data = collection.find()
     serializer = Medicine_serializer(data  ,many= True)
@@ -83,8 +83,8 @@ def add_customer(request):
 
 
 @api_view(['GET'])
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
+# @authentication_classes([JWTAuthentication])
+# @permission_classes([IsAuthenticated])
 def get_customer(request):
     query_set = Customer.objects.all()
     serializer = Customer_serializer(query_set , many=True)

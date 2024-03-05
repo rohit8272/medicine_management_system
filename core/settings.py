@@ -138,9 +138,9 @@ DATABASES = {
         'NAME': 'Customers',  
         'USER':'postgres',  
         'PASSWORD':'Rohit123',  
-        'HOST':'localhost',  
+        'HOST':'db',  
         'PORT':'5432'  
-    } 
+    }
 }
 
 # Password validation
