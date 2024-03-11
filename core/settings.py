@@ -131,16 +131,23 @@ SIMPLE_JWT = {
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+import os
 
 DATABASES = { 
-    'default': {  
-        'ENGINE': 'django.db.backends.postgresql',  
-        'NAME': 'Customers',  
-        'USER':'postgres',  
-        'PASSWORD':'Rohit123',  
-        'HOST':'db',  
-        'PORT':'5432'  
-    }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': os.environ.get('POSTGRES_HOST'),
+        'NAME': os.environ.get('POSTGRES_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'PORT': os.environ.get('POSTGRES_PORT', 5432),
+    },
+    # 'mongo': {
+    #       'ENGINE': 'djongo',
+    #       'NAME': 'medicine_shop',
+    #       "HOST" : 'mongo' ,
+    #       "PORT" : 27017
+    #   }
 }
 
 # Password validation

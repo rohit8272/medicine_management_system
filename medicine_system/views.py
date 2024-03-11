@@ -2,15 +2,21 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view , authentication_classes ,permission_classes
 from rest_framework.response import Response
 from .serializer import Customer_serializer , Medicine_serializer
-from .db import conn
-from .models import Customer
+from .models import Customer 
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
+from pymongo import MongoClient
 
-db = conn['medicines']
+import os
+
+MONGO_URI = os.getenv('MONGO_URI')
+client = MongoClient(MONGO_URI)
+db = client['medicines']
 collection = db['medicines_details']
 
 @api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def add_medicine(request):
     data = request.data
     serializer = Medicine_serializer(data = data)
@@ -24,8 +30,8 @@ def add_medicine(request):
 
 
 @api_view(['GET'])
-# @authentication_classes([JWTAuthentication])
-# @permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def get_medicine(request):
     data = collection.find()
     serializer = Medicine_serializer(data  ,many= True)
@@ -52,7 +58,7 @@ def update_medicine(request , uuid):
         return Response({"status" : 400 , "message" : serializer.errors})
     new_data = {"$set" : serializer.data}
     ## we can update without use of serializer
-    #  new_data = {"$set" : data}
+    # new_data = {"$set" : data}
     collection.update_one(old_data , new_data)
     return Response({"data" : serializer.data})
 
@@ -71,6 +77,8 @@ def delete_medicine(request , uuid):
 #### customers
 
 @api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def add_customer(request):
     data = request.data
     serializer = Customer_serializer(data = data)
@@ -83,8 +91,8 @@ def add_customer(request):
 
 
 @api_view(['GET'])
-# @authentication_classes([JWTAuthentication])
-# @permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def get_customer(request):
     query_set = Customer.objects.all()
     serializer = Customer_serializer(query_set , many=True)
@@ -103,7 +111,7 @@ def get_customer_by_id(request ,uuid):
 @api_view(['PUT'])
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
-def update_customer(request ,uuid):
+def update_customer(request , uuid):
     data = request.data
     query_set = Customer.objects.get(uuid = uuid)
     serializer = Customer_serializer(query_set , data = data)

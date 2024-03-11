@@ -1,21 +1,44 @@
-version: "3"
+version: '3'
 
 services:
-  db:
-    image: postgres
-    volumes:
-      - ./data/db:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=Customers
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=Rohit123
-    
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    restart: always
+    command: "python manage.py runserver 0.0.0.0:8000"
+    env_file: .env
     volumes:
       - .:/code
     ports:
       - 8000:8000
     depends_on:
-      - db
+      - postgres
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    env_file: .env    
+    volumes:
+      - ./data/mongo:/data/db  
+    ports:
+      - 27017:27017
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: always
+    env_file: .env
+    environment:
+      - POSTGRES_DB=Customer
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Rohit123
+      - POSTGRES_PORT=5432
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+networks:
+  default:

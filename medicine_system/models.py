@@ -8,13 +8,14 @@ class Baseclass(models.Model):
     class Meta :
         abstract = True
 
-class Medicine(Baseclass):
+class Medicine(models.Model):
+    uuid = models.UUIDField(primary_key =True ,default = uuid.uuid4 , editable = False, unique=True)
+    creted_at = models.DateField(auto_now_add = True)
     name = models.CharField(max_length = 100)
     price = models.IntegerField(default = 100)
     expiry_date = models.CharField(max_length = 50)
     weight_in_ML = models.IntegerField(default = 50)
     use_in_disease = models.CharField(max_length = 100)
-
 
 class Customer(Baseclass):
     # medicine = models.ForeignKey(Medicine , related_name = "medicine_details" , on_delete = models.CASCADE)
