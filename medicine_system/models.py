@@ -14,7 +14,9 @@ class Medicine(models.Model):
     name = models.CharField(max_length = 100)
     price = models.IntegerField(default = 100)
     expiry_date = models.CharField(max_length = 50)
-    weight_in_ML = models.IntegerField(default = 50)
+    medicine_type = models.CharField(max_length = 50)
+    is_available = models.BooleanField(default = 0)
+    weight_in_ml_or_mg = models.IntegerField(default = 50)
     use_in_disease = models.CharField(max_length = 100)
 
 class Customer(Baseclass):
@@ -22,6 +24,7 @@ class Customer(Baseclass):
     name = models.CharField(max_length = 100)
     age = models.IntegerField(default = 30)
     gender = models.CharField(max_length = 10)
+    address = models.CharField(max_length = 200 , default = 1)
     disease = models.CharField(max_length = 100)
 
     class Meta:
