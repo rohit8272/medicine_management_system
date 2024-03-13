@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'medicine_system',
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_swagger',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -136,18 +138,23 @@ import os
 DATABASES = { 
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': os.environ.get('POSTGRES_HOST'),
-        'NAME': os.environ.get('POSTGRES_NAME'),
+        'HOST': 'localhost',
+        'NAME': "Customers",
         'USER': os.environ.get('POSTGRES_USER'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
         'PORT': os.environ.get('POSTGRES_PORT', 5432),
     },
-    # 'mongo': {
-    #       'ENGINE': 'djongo',
-    #       'NAME': 'medicine_shop',
-    #       "HOST" : 'mongo' ,
-    #       "PORT" : 27017
-    #   }
+}
+
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,  # Set to True if using session authentication
+    'SECURITY_DEFINITIONS': {
+        'Token': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
 }
 
 # Password validation

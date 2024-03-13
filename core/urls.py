@@ -17,24 +17,36 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from medicine_system.views import *
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from rest_framework import permissions
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
 
+schema_view = get_schema_view(
+   openapi.Info(
+      title="API Docs",
+      default_version='v1',
+      description="student description",
+      terms_of_service="https://www.google.com/policies/terms/",
+      contact=openapi.Contact(email="contact@snippets.local"),
+      license=openapi.License(name="BSD License"),
+   ),
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('add_medicine/' , add_medicine),
-    path('get_medicine/' ,get_medicine),
-    path('get_medicine_by_id/<uuid>/' ,get_medicine_by_id),
-    path('update_medicine/<uuid>/' , update_medicine),
-    path('delete_medicine/<uuid>/' ,delete_medicine),
-    path('add_customer/' , add_customer),
-    path('get_customer/' , get_customer),
-    path('get_customer_by_id/<uuid>/' , get_customer_by_id),
-    path('update_customer/<uuid>/' , update_customer),
-    path('delete_customer/<uuid>/', delete_customer),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('medicine_data/',Medicine_data.as_view() , name="medicine_data"),
+    path('medicine_data/<uuid>/',Medicine_data.as_view() , name="medicine_data"),
+    path('customer_data/',Customer_data.as_view() , name="Customer_data"),
+    path('customer_data/<uuid>/',Customer_data.as_view() , name="Customer_data"),
+
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
