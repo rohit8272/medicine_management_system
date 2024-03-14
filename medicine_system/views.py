@@ -11,8 +11,8 @@ from drf_yasg.utils import swagger_auto_schema
 
 import os
 
-# MONGO_URI = os.getenv('MONGO_URI')
-client = MongoClient("mongodb://localhost:27017")
+MONGO_URI = os.getenv('MONGO_URI')
+client = MongoClient(MONGO_URI)
 db = client['medicines2']
 collection = db['medicines_details2']
 
