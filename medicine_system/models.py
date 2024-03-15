@@ -20,7 +20,6 @@ class Medicine(models.Model):
     use_in_disease = models.CharField(max_length = 100)
 
 class Customer(Baseclass):
-    # medicine = models.ForeignKey(Medicine , related_name = "medicine_details" , on_delete = models.CASCADE)
     name = models.CharField(max_length = 100)
     age = models.IntegerField(default = 30)
     gender = models.CharField(max_length = 10)

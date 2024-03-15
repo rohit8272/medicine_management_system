@@ -43,12 +43,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('medicine_data/',Medicine_data.as_view() , name="medicine_data"),
-    path('medicine_data/<uuid>/',Medicine_data.as_view() , name="medicine_data"),
+    path('medicine_data/<str:_id>/',Medicine_data.as_view() , name="medicine_data"),
     path('customer_data/',Customer_data.as_view() , name="Customer_data"),
     path('customer_data/<uuid>/',Customer_data.as_view() , name="Customer_data"),
 
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
 
 ]
