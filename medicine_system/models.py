@@ -9,8 +9,6 @@ class Baseclass(models.Model):
         abstract = True
 
 class Medicine(models.Model):
-    uuid = models.UUIDField(primary_key =True ,default = uuid.uuid4 , editable = False, unique=True)
-    creted_at = models.DateField(auto_now_add = True)
     name = models.CharField(max_length = 100)
     price = models.IntegerField(default = 100)
     expiry_date = models.CharField(max_length = 50)
